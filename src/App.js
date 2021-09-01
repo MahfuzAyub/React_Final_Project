@@ -1,24 +1,42 @@
 import logo from './logo.svg';
 import './App.css';
+import React, { useEffect, useState } from "react";
+import ProductList from './pages/ProductList';
+import ProdDetails from './pages/ProdDetails';
+import Loader from "./pages/Loader.jsx";
+import { BrowserRouter, Switch, Route, Link, useParams } from "react-router-dom";
+import { Redirect, useHistory, useLocation } from "react-router";
+import AddProduct from './pages/AddProduct';
+import EditProduct from './pages/EditProduct';
+import DeleteProduct from './pages/DeleteProduct';
 
-function App() {
+
+const App = () => {
+  const [currentProdut, setcurrentProdut] = useState(null);
+  const [isLoaded, setisLoaded] = useState(false);
+  const [p1, setp1] = useState(null);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Link to='/'>Product List</Link>
+      <Link to='/AddProduct'>Add Product</Link>
+      <Switch >
+        <Route exact path='/'>
+          <ProductList />
+        </Route>
+        <Route exact path='/List' render={() => <Redirect to='/'></Redirect>}></Route>
+        <Route path='/Details/:id'>
+          <ProdDetails />
+        </Route>
+        <Route exact path='/AddProduct' render={() => <AddProduct />}></Route>
+        <Route path='/Edit/:id' render={() => <EditProduct />}></Route>
+        <Route path='/delete/:id' render={() => <DeleteProduct />}></Route>
+        <Route exact path='*'>
+          <p>404......Nothing found !!!</p>
+        </Route>
+      </Switch>
+    </>
   );
 }
 
