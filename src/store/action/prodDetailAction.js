@@ -14,30 +14,33 @@ export const requestProductDetails = (id) => {
     }
 }
 
-export const requestProductEdit = (id, product) => {
+export const requestProductEdit = (id, product, token) => {
     return async (dispatch) => {
-        const response =
-            //await axios.patch(`http://192.168.57.19:8080/products/${id}`);
-            fetch(`http://192.168.57.19:8080/products/${id}`, {
-                method: "PATCH",
-                body: JSON.stringify({
-                    title: "test product",
-                    price: 13.5,
-                    description: "lorem ipsum set",
-                    image: "BASE64",
-                    stock: 123,
-                    category_id: "1234",
-                }),
+        const data = {
+            title: product.title,
+            price: product.price,
+            description: product.description,
+            image: product.image,
+            stock: product.stock,
+            category_id: product.category._id,
+        }
+        const response = await axios.patch(`http://192.168.57.19:8080/products/${id}`,
+            data,
+            {
+                headers: {
+                    Accept: "application/json",
+                    authorization: `bearer ${token}`
+                }
             })
-        console.log(response, "updatae")
-        dispatch(setCurrentProduct_Store(response.data));
-    }
+        //dispatch(setCurrentProduct_Store(response));
+        console.log(response.status, "Update Status!!");
+    };
 }
 
 export const requestProductDelete = (id) => {
     return async (dispatch) => {
         const response = await axios.delete(`http://192.168.57.19:8080/products/${id}`);
-        console.log(response.status, "del")
-        dispatch(setCurrentProduct_Store(null));
+        console.log(response.status, "del Status")
+        //dispatch(setCurrentProduct_Store(null));
     }
 }

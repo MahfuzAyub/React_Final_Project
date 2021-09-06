@@ -10,7 +10,7 @@ export const requestProductList = () => {
     return async (dispatch) => {
         const response = await axios.get('http://192.168.57.19:8080/products');
         dispatch(setProductList_Store(response.data));
-        console.log(response.data, "adfdfdf")
+        console.log(response.data, "Product LIst")
     };
 };
 

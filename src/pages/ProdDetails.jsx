@@ -45,18 +45,18 @@ const ProdDetails = () => {
 						src={reduxStore.currentProduct?.image}
 						style={{ width: "25% " }}></img>
 					<p>Name : {reduxStore.currentProduct?.title} </p>
-					<p>Category : {reduxStore.currentProduct?.category.name} </p>
+					<p>Category : {reduxStore.currentProduct?.category?.name} </p>
 					<p>Description :{reduxStore.currentProduct?.description} </p>
 					<p>Price : {reduxStore.currentProduct?.price} </p>
 					<p>Stock : {reduxStore.currentProduct?.stock} </p>
 					<button onClick={() => bactToList()}>Back to List</button>
 					<div>
-						<button onClick={() => goEditPage(reduxStore.currentProduct?.id)}>
+						<button onClick={() => goEditPage(reduxStore.currentProduct._id)}>
 							Edit
 						</button>
 					</div>
 					<div>
-						<button onClick={() => goDeletePage(reduxStore.currentProduct?.id)}>
+						<button onClick={() => goDeletePage(reduxStore.currentProduct._id)}>
 							Delete Product
 						</button>
 					</div>

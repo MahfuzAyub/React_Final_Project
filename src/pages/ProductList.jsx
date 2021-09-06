@@ -19,6 +19,7 @@ const ProductList = () => {
 	const getDetials = (id) => {
 		history.push(`/Details/${id}`);
 	};
+	const base_URL = "http://192.168.57.19:8080/products";
 	return (
 		<>
 			<h1>Product List</h1>
@@ -27,7 +28,7 @@ const ProductList = () => {
 				{listStore.productList.map((p) => {
 					return (
 						<div>
-							<img src={p.image} style={{ width: "70px" }}></img>
+							<img src={base_URL + p.image} style={{ width: "100px" }}></img>
 							<p>{p.title}</p>
 							<button onClick={() => getDetials(p._id)}>See Details</button>
 						</div>

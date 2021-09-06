@@ -14,6 +14,9 @@ export const requestProductEdit = (id) => {
 
             fetch(`http://192.168.57.19:8080/products/${id}`, {
                 method: "PATCH",
+                headers: {
+                    authorization: "bearer {TOKEN}",
+                },
                 body: JSON.stringify({
                     title: "test product",
                     price: 13.5,
@@ -23,7 +26,7 @@ export const requestProductEdit = (id) => {
                     category_id: "1234",
                 }),
             })
-        console.log(response.status, "updatae");
+        console.log(response.status, "updatae 22222");
         dispatch(setCurrentProduct_Store(response.data));
     }
 }
