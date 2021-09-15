@@ -24,7 +24,7 @@ const EditProduct = () => {
 	const curProductStore = useSelector(
 		(store) => store.detailStore.currentProduct
 	);
-	const token = useSelector((store) => store.authStore.token);
+	const token = useSelector((store) => store.authStore.token.token);
 	const callUpdateApi = (id) => {
 		dispatch(requestProductEdit(id, product, token));
 		history.push("/");

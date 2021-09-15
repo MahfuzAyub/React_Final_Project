@@ -1,10 +1,13 @@
-import { actionType } from "../actionTypes";
+import { useHistory, useLocation, useParams } from "react-router";
+import { requestProductList } from "./productListAction";
 import axios from "axios";
 
 // export const setCurrentProduct_Store = (currentProduct) => {
 //     return { type: actionType.update_CurrentProduct, payload: currentProduct };
 // };
 export const requestProductAdd = (product, token) => {
+  //  const history = useHistory();
+
     return async (dispatch) => {
         const data = {
             title: product.title,
@@ -25,7 +28,8 @@ export const requestProductAdd = (product, token) => {
                     authorization: `bearer ${token}`
                 }
             })
-        //dispatch(setCurrentProduct_Store(response));
-        console.log(response.status, "Update Status!!");
+        dispatch(requestProductList());
+        console.log(response, "Post Status!!");
+       // history.push("/");
     };
 }

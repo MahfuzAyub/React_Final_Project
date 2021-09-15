@@ -42,7 +42,7 @@ const ProdDetails = () => {
 				<div>
 					<div>{!isLoaded && <Loader />}</div>
 					<img
-						src={reduxStore.currentProduct?.image}
+						src={"http://192.168.57.19:8080/products"+reduxStore.currentProduct?.image}
 						style={{ width: "25% " }}></img>
 					<p>Name : {reduxStore.currentProduct?.title} </p>
 					<p>Category : {reduxStore.currentProduct?.category?.name} </p>

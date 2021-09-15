@@ -1,11 +1,20 @@
+import styled from "styled-components";
+import Product from "./Product";
 import React, { useEffect, useState } from "react";
 import { useHistory, useLocation, useParams } from "react-router";
-import axios from "axios";
-import Loader from "./Loader";
+import Loader from "../pages/Loader";
 import { requestProductList } from "../store/action/productListAction";
 import { requestCategorytList } from "../store/action/category/catListAction";
 import { useDispatch, useSelector } from "react-redux";
-const ProductList = () => {
+
+const Container = styled.div`
+	padding: 20px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+`;
+
+const Products = () => {
 	const listStore = useSelector((store) => store.listStore);
 	const dispatch = useDispatch();
 	const [isLoaded, setIsLoaded] = useState(false);
@@ -21,23 +30,20 @@ const ProductList = () => {
 	const getDetials = (id) => {
 		history.push(`/Details/${id}`);
 	};
-	const base_URL = "http://192.168.57.19:8080/products";
 	return (
-		<>
-			<h1>Product List</h1>
-			<div>
-				<div>{!isLoaded && <Loader />}</div>
-				{listStore.productList.map((p) => {
-					return (
-						<div>
-							<img src={base_URL + p.image} style={{ width: "100px" }}></img>
-							<p>{p.title}</p>
-							<button onClick={() => getDetials(p._id)}>See Details</button>
-						</div>
-					);
-				})}
-			</div>
-		</>
+		<Container>
+			<div>{!isLoaded && <Loader />}</div>
+			{listStore.productList.map((item) => {
+				return (
+					<Product item={item} key={item.id} />
+					// <div>
+					// 	<img src={"http://192.168.57.19:8080/products" + p.image} style={{ width: "100px" }}></img>
+					// 	<p>{p.title}</p>
+					// 	<button onClick={() => getDetials(p._id)}>See Details</button>
+					// </div>
+				);
+			})}
+		</Container>
 	);
 };
-export default ProductList;
+export default Products;

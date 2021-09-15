@@ -2,8 +2,9 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useHistory, useLocation, useParams } from "react-router";
 import Loader from "./Loader";
-import { requestSigninAPI } from "../store/action/authAction";
+import { requestSigninAPI, setLogOut_Action } from "../store/action/authAction";
 import { useDispatch, useSelector } from "react-redux";
+import Button from "./Login.jsx";
 
 const Signinn = () => {
 	const [user, setuser] = useState({
@@ -18,21 +19,25 @@ const Signinn = () => {
 		console.log(e.target.value);
 	};
 
-	const Signin=() => {
+	const Signin = () => {
 		dispatch(requestSigninAPI(user));
 		setIsLoaded(true);
 	};
+	const SignOut = () => {
+		dispatch(setLogOut_Action());
+		setIsLoaded(true);
+	};
 
-	
 	return (
 		<>
 			<div>
-				<p>enail</p>
+				<p>email</p>
 				<input onChange={(e) => setSigninData(e, "enail")} />
 				<p>Password</p>
 				<input onChange={(e) => setSigninData(e, "password")} />
 				<div>
-					<button onClick={Signin}>Add user</button>
+					<button onClick={Signin}>Log In</button>
+					<button onClick={SignOut}>Log Out</button>
 				</div>
 			</div>
 		</>

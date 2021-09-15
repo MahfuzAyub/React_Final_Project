@@ -15,8 +15,8 @@ export const requestSigninAPI = (user) => {
                     password: user.password,// "admin@admin",
                 })
                 .then((response) => {
-                    dispatch(setLogin_Action(response.data?.userInfo.token));
-                    console.log(response.data, "res"); 
+                    dispatch(setLogin_Action(response.data?.userInfo));
+                    console.log(response.data, "res");
                 })
                 .catch((error) => {
                     console.log(error, "err");
@@ -25,3 +25,7 @@ export const requestSigninAPI = (user) => {
 
     }
 }
+export const setLogOut_Action = () => ({
+    type: actionType.setLogOut,
+    payload: null
+});

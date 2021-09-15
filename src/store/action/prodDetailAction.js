@@ -1,5 +1,6 @@
 import { actionType } from "../actionTypes";
 import axios from "axios";
+import { requestProductList } from "./productListAction";
 
 export const setCurrentProduct_Store = (currentProduct) => {
     return { type: actionType.update_CurrentProduct, payload: currentProduct };
@@ -32,15 +33,24 @@ export const requestProductEdit = (id, product, token) => {
                     authorization: `bearer ${token}`
                 }
             })
-        //dispatch(setCurrentProduct_Store(response));
-        console.log(response.status, "Update Status!!");
+        dispatch(requestProductList());
+        alert(response.status, "UpdDate Status!!");
     };
 }
 
-export const requestProductDelete = (id) => {
+export const requestProductDelete = (id, token) => {
     return async (dispatch) => {
-        const response = await axios.delete(`http://192.168.57.19:8080/products/${id}`);
-        console.log(response.status, "del Status")
-        //dispatch(setCurrentProduct_Store(null));
+        console.log(id, "id Status")
+        const response = await axios.delete(`http://192.168.57.19:8080/products/${id}`,
+            {
+                headers: {
+                    Accept: "application/json",
+                    authorization: `bearer ${token}`
+                }
+            }
+        );
+        alert(response.status, "Delete Status");
+        dispatch(requestProductList());
+        return id;
     }
 }

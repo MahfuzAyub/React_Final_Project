@@ -4,15 +4,19 @@ import prodListReducer from "./prodListReducer";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import authReducer from "./authReducer";
+import categoryReducer from "./categories/categoryReducer";
+import cartReducer from "./cartReducer"
 
 const persistConfig = {
     key: 'root',
-    storage:storage,
+    storage: storage,
 }
 const persistedStore = persistReducer(persistConfig, authReducer);
 
 export const mainReducer = combineReducers({
     listStore: prodListReducer,
     detailStore: prodDetailReducer,
-    authStore: persistedStore
+    authStore: persistedStore,
+    categoryStore: categoryReducer,
+    cartStore: cartReducer
 })

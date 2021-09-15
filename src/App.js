@@ -10,39 +10,44 @@ import AddProduct from './pages/AddProduct';
 import EditProduct from './pages/EditProduct';
 import DeleteProduct from './pages/DeleteProduct';
 import Signin from './pages/signin';
-import { sign } from 'aws4';
+import Navbar from './components/Navbar';
+import Announcement from './components/Announcement';
+import Products from './components/Products';
+import Footer from './components/Footer';
+import Login from './pages/Login';
+import Cart from './pages/Cart';
 
 const App = () => {
   const [currentProdut, setcurrentProdut] = useState(null);
   const [isLoaded, setisLoaded] = useState(false);
   const [p1, setp1] = useState(null);
 
-
   return (
     <>
-      <Link to='/'>Product List</Link>
-      <Link to='/AddProduct'>Add Product</Link>
-      <Link to='/signin'>sign In</Link>
+      <Announcement />
+      <Navbar />
       <Switch >
         <Route exact path='/'>
-          <ProductList />
+          <Products />
         </Route>
         <Route exact path='/List' render={() => <Redirect to='/'></Redirect>}></Route>
         <Route path='/Details/:id'>
           <ProdDetails />
         </Route>
+        <Route path='/cart'>
+          <Cart />
+        </Route>
         <Route exact path='/AddProduct' render={() => <AddProduct />}></Route>
         <Route path='/Edit/:id' render={() => <EditProduct />}></Route>
         <Route path='/delete/:id' render={() => <DeleteProduct />}></Route>
-
         <Route exact path='/signin' render={() => <Signin />}></Route>
 
         <Route exact path='*'>
           <p>404......Nothing found !!!</p>
         </Route>
       </Switch>
+      <Footer />
     </>
   );
 }
-
 export default App;

@@ -4,19 +4,22 @@ import { useHistory, useLocation, useParams } from "react-router";
 import { requestProductDelete } from "../store/action/prodDetailAction";
 import { useDispatch, useSelector } from "react-redux";
 
+
 const DeleteProduct = () => {
 	const [product, setProudct] = useState();
 
 	const editProduct = (e, key) => {
 		setProudct(product && { ...product, [key]: e.target.value });
-		console.log(e.target.value, "target");
+	//	console.log(e.target.value, "target");
 	};
 	const { id } = useParams();
 	const history = useHistory();
 	const dispatch = useDispatch();
 	
-	const callDeleteApi = () => {
-		dispatch(requestProductDelete(id));
+	const token = useSelector((store) => store.authStore.token.token);
+	const callDeleteApi = (id,t) => {
+			console.log( "called");
+		dispatch(requestProductDelete(id,t));
 		history.push("/");
 	};
 	useEffect(() => {
@@ -28,7 +31,7 @@ const DeleteProduct = () => {
 				<h1>Sure to Delete The Product ??</h1>
 
 				<div>
-					<button onClick={callDeleteApi}>Delete</button>
+					<button onClick={()=>callDeleteApi(id,token)}>Delete</button>
 				</div>
 			</div>
 		</>
