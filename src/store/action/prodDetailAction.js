@@ -9,7 +9,7 @@ export const setCurrentProduct_Store = (currentProduct) => {
 
 export const requestProductDetails = (id) => {
     return async (dispatch) => {
-        const response = await axios.get(`http://192.168.57.19:8080/products/${id}`);
+        const response = await axios.get(`http://localhost:8080/products/${id}`);
         dispatch(setCurrentProduct_Store(response.data));
         console.log(response.data, "response.data");
     }
@@ -25,7 +25,7 @@ export const requestProductEdit = (id, product, token) => {
             stock: product.stock,
             category_id: product.category._id,
         }
-        const response = await axios.patch(`http://192.168.57.19:8080/products/${id}`,
+        const response = await axios.patch(`http://localhost:8080/products/${id}`,
             data,
             {
                 headers: {
@@ -34,14 +34,14 @@ export const requestProductEdit = (id, product, token) => {
                 }
             })
         dispatch(requestProductList());
-        alert(response.status, "UpdDate Status!!");
+        alert(response, "UpdDate Status!!");
     };
 }
 
 export const requestProductDelete = (id, token) => {
     return async (dispatch) => {
         console.log(id, "id Status")
-        const response = await axios.delete(`http://192.168.57.19:8080/products/${id}`,
+        const response = await axios.delete(`http://localhost:8080/products/${id}`,
             {
                 headers: {
                     Accept: "application/json",

@@ -5,13 +5,15 @@ import { useHistory, useLocation, useParams } from "react-router";
 import Loader from "../pages/Loader";
 import { requestProductList } from "../store/action/productListAction";
 import { requestCategorytList } from "../store/action/category/catListAction";
+import { RequestCartList } from "../store/action/cartAction";
 import { useDispatch, useSelector } from "react-redux";
 
 const Container = styled.div`
 	padding: 20px;
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between;
+	justify-content: flex-start;
+
 `;
 
 const Products = () => {
@@ -20,10 +22,13 @@ const Products = () => {
 	const [isLoaded, setIsLoaded] = useState(false);
 	const params = useParams();
 	const history = useHistory();
+	const token = useSelector((store) => store.authStore?.token?.token);
 
 	useEffect(() => {
 		dispatch(requestProductList());
 		dispatch(requestCategorytList());
+
+	//	dispatch(RequestCartList(token));
 		setIsLoaded(true);
 	}, [dispatch]);
 
@@ -36,11 +41,6 @@ const Products = () => {
 			{listStore.productList.map((item) => {
 				return (
 					<Product item={item} key={item.id} />
-					// <div>
-					// 	<img src={"http://192.168.57.19:8080/products" + p.image} style={{ width: "100px" }}></img>
-					// 	<p>{p.title}</p>
-					// 	<button onClick={() => getDetials(p._id)}>See Details</button>
-					// </div>
 				);
 			})}
 		</Container>

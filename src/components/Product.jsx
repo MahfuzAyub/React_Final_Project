@@ -10,6 +10,7 @@ import { useHistory, useLocation, useParams } from "react-router";
 import { requestAddCartAPI } from "../store/action/cartAction";
 import { requestCategorytList } from "../store/action/category/catListAction";
 import { useDispatch, useSelector } from "react-redux";
+import { RequestCartList } from "../store/action/cartAction";
 
 const Info = styled.div`
 	opacity: 0;
@@ -27,7 +28,7 @@ const Info = styled.div`
 	cursor: pointer;
 `;
 
-const Container = styled.div`
+const Wrapper = styled.div`
 	flex: 1;
 	margin: 5px;
 	min-width: 280px;
@@ -54,6 +55,8 @@ const Circle = styled.div`
 const Image = styled.img`
 	height: 75%;
 	z-index: 2;
+	margin: 5px;
+	width: 300px;
 `;
 
 const Icon = styled.div`
@@ -71,6 +74,16 @@ const Icon = styled.div`
 		transform: scale(1.1);
 	}
 `;
+const Details = styled.div`
+	margin: 5px;
+	justify-content: center;
+	text-align: center;
+`;
+const Container = styled.div`
+	margin: 5px;
+	justify-content: center;
+	cursor: pointer;
+`;
 
 const Product = ({ item }) => {
 	const listStore = useSelector((store) => store.listStore);
@@ -78,29 +91,55 @@ const Product = ({ item }) => {
 	const [isLoaded, setIsLoaded] = useState(false);
 	const params = useParams();
 	const history = useHistory();
-	const token = useSelector((store) => store.authStore.token.token);
+	const token = useSelector((store) => store.authStore.token);
+	const cart = useSelector((store) => store.cartStore.cart?.products);
 
 	const getDetials = (id) => {
 		history.push(`/Details/${id}`);
 	};
-	const addToCart = (id, token) => {
-		dispatch(requestAddCartAPI(id, token));
-	};
+	useEffect(() => {
+		dispatch(RequestCartList(token));
+	}, [dispatch,token]);
+	const addToCart = (id, token, action) => {
+		const item = cart?.find((item) => item.productId._id === id);
+
+		// calc quantity
+		let quantity = null;
+		if (action == "add") {
+			quantity = !item ? 1 : item.quantity + 1;
+		}
+		if (action == "remove") {
+			if (item.quantity <= 1) quantity = 0;
+			else quantity = item.quantity - 1;
+		}
+		dispatch(requestAddCartAPI(id, token, quantity));
+  };
+  
+  const role = token?.role;
+  console.log(role, "token?.role");
 	return (
 		<Container>
-			<Circle />
-			<Image src={"http://192.168.57.19:8080/products" + item.image} />
-			<Info>
-				<Icon>
-					<ShoppingCartOutlined onClick={() => addToCart(item._id, token)} />
-				</Icon>
-				<Icon>
-					<SearchOutlined onClick={() => getDetials(item._id)} />
-				</Icon>
-				<Icon>
-					<FavoriteBorderOutlined />
-				</Icon>
-			</Info>
+			<Wrapper>
+				<Circle />
+				<Image src={"http://localhost:8080/products" + item.image} />
+				<Info>
+					{ token?.role == 'user' && (
+						<Icon>
+							<ShoppingCartOutlined
+								onClick={() => addToCart(item._id, token?.token, "add")}
+							/>
+						</Icon>
+					)}
+
+					<Icon>
+						<SearchOutlined onClick={() => getDetials(item._id)} />
+					</Icon>
+					{/* <Icon>
+						<FavoriteBorderOutlined />
+					</Icon> */}
+				</Info>
+			</Wrapper>
+			<Details onClick={() => getDetials(item._id)}>{item.title}</Details>
 		</Container>
 	);
 };

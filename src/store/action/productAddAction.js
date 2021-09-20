@@ -20,7 +20,7 @@ export const requestProductAdd = (product, token) => {
                 _id: product.category_id,
             },
         }
-        const response = await axios.post(`http://192.168.57.19:8080/products/`,
+        const response = await axios.post(`http://localhost:8080/products/`,
             data,
             {
                 headers: {

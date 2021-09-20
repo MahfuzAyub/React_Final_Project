@@ -10,7 +10,7 @@ export const requestSigninAPI = (user) => {
     return (dispatch) => {
         const response =
             axios
-                .post("http://192.168.57.19:8080/signin", {
+                .post("http://localhost:8080/signin", {
                     email: user.enail,
                     password: user.password,// "admin@admin",
                 })
@@ -21,7 +21,7 @@ export const requestSigninAPI = (user) => {
                 .catch((error) => {
                     console.log(error, "err");
                 });
-        console.log(response.data, "Updated Product")
+        console.log(response.data, "requestSigninAPI")
 
     }
 }

@@ -1,21 +1,21 @@
 import { actionType } from "../actionTypes";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 
-export const AddCart_Action = (id) => ({
-    type: actionType.addtoCart,
-    payload: id
+export const getCart_Action_store = (product) => ({
+    type: actionType.getCart,
+    payload: product
 });
-
-export const requestAddCartAPI = (id, token) => {
+export const requestAddCartAPI = (id, token,q) => {
     return async (dispatch) => {
-        
+
         const data = {
             product: {
                 id: id,
-                quantity: 1
+                quantity:q
             }
         }
-        const response = await axios.post(`http://192.168.57.19:8080/cart/`,
+        const response = await axios.post(`http://localhost:8080/cart/`,
             data,
             {
                 headers: {
@@ -23,8 +23,20 @@ export const requestAddCartAPI = (id, token) => {
                     authorization: `bearer ${token}`
                 }
             })
-        //dispatch(AddCart_Action(response.data));
-        //alert(response.status, "Cart UpdDate Status!!");
-        console.log(response.data,id,token, "response")
+        console.log(response.data, "response")
+        dispatch(RequestCartList(token));
     }
 }
+export const RequestCartList = (token) => {
+    // const tokens = useSelector((store) => store.authStore.token.token);
+    return async (dispatch) => {
+        const response = await axios.get("http://localhost:8080/cart", {
+            headers: {
+                Accept: "application/json",
+                authorization: `bearer ${token}`
+            }
+        });
+        dispatch(getCart_Action_store(response.data));
+        console.log(response.data, "request cart LIst")
+    };
+};

@@ -7,7 +7,7 @@ const initialState = {
 
 const cartReducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionType.addtoCart:
+        case actionType.getCart:
             return { ...state, cart: action.payload };
 
         default: return state;

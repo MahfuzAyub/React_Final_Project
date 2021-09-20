@@ -1,18 +1,23 @@
+import React, { useEffect, useState } from "react";
 import { Add, Remove } from "@material-ui/icons";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
+import { RequestCartList } from "../store/action/cartAction";
+import { useDispatch, useSelector } from "react-redux";
+import { requestAddCartAPI } from "../store/action/cartAction";
 
 const Container = styled.div`
 	align-items: center;
-	justify-content: space-between;
-	padding: 80px;
+
+	padding: 5px;
 `;
 
 const Wrapper = styled.div`
 	padding: 20px;
+	flex-wrap: wrap;
 	${mobile({ padding: "10px" })}
 `;
 
@@ -25,7 +30,7 @@ const Top = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 20px;
+	padding: 5px;
 `;
 
 const TopButton = styled.button`
@@ -50,33 +55,43 @@ const TopText = styled.span`
 const Bottom = styled.div`
 	display: flex;
 	justify-content: space-between;
+	flex: 3;
+	flex-direction: column;
+	flex-wrap: wrap;
+	flex-direction: row;
+	align-items: center;
 	${mobile({ flexDirection: "column" })}
 `;
 
 const Info = styled.div`
-	flex: 3;
+	flex: 2;
 `;
 
 const Product = styled.div`
+	width: 250px;
 	display: flex;
-	justify-content: space-between;
+	flex-direction: column;
+	justify-content: space-around;
 	${mobile({ flexDirection: "column" })}
 `;
 
 const ProductDetail = styled.div`
 	flex: 2;
+	flex-direction: column;
 	display: flex;
 `;
 
 const Image = styled.img`
 	width: 200px;
+	height: 200px;
+	border-radius: 10%;
 `;
 
 const Details = styled.div`
 	padding: 20px;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-around;
+	justify-content: space-between;
 `;
 
 const ProductName = styled.span``;
@@ -113,6 +128,7 @@ const ProductAmount = styled.div`
 `;
 
 const ProductPrice = styled.div`
+	display: flex;
 	font-size: 30px;
 	font-weight: 200;
 	${mobile({ marginBottom: "20px" })}
@@ -127,7 +143,7 @@ const Hr = styled.hr`
 const Summary = styled.div`
 	flex: 1;
 	border: 0.5px solid red;
-	border-radius: 50px;
+	border-radius: 5px;
 	padding: 30px;
 	height: 50vh;
 `;
@@ -155,98 +171,133 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
+	const tokens = useSelector((store) => store.authStore.token?.token);
+	const cartlist = useSelector((store) => store.cartStore.cart);
+	const dispatch = useDispatch();
+	const base_URL = "http://192.168.57.19:8080/products";
+
+	const token = useSelector((store) => store.authStore.token?.token);
+	const carts = useSelector((store) => store.cartStore.cart?.products);
+
+	useEffect(() => {
+		dispatch(RequestCartList(tokens));
+		console.log(tokens, "ererer");
+	}, [dispatch]);
+	const addToCart = (id, token, action) => {
+		const item = carts.find((item) => item.productId?._id == id);
+
+		// calc quantity
+		let quantity = null;
+		if (action == "add") {
+			quantity = !item ? 1 : item.quantity + 1;
+		}
+		if (action == "remove") {
+			if (item?.quantity > 0) quantity = item?.quantity - 1;
+		}
+		dispatch(requestAddCartAPI(id, token, quantity));
+	};
+
+	const totalPrice = () => {
+		if (carts && carts.length > 0) {
+			const sum = carts.reduce((acc, { productId, quantity }) => {
+				return acc + productId.price * quantity;
+			}, 0);
+
+			return sum.toFixed(2);
+		} else return 0;
+	};
 	return (
 		<Container>
 			{/* <Navbar />
-      <Announcement /> */}
-			<Wrapper>
-				<Title>YOUR BAG</Title>
-				<Top>
+	    <Announcement /> */}
+			{!cartlist == [] && (
+				<Wrapper>
+					<Title>YOUR BAG</Title>
+					{/* <Top>
 					<TopButton>CONTINUE SHOPPING</TopButton>
 					<TopTexts>
 						<TopText>Shopping Bag(2)</TopText>
-						<TopText>Your Wishlist (0)</TopText>
 					</TopTexts>
-					<TopButton type="filled">CHECKOUT NOW</TopButton>
-				</Top>
-				<Bottom>
-					<Info>
-						<Product>
-							<ProductDetail>
-								<Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
-								<Details>
-									<ProductName>
-										<b>Product:</b> JESSIE THUNDER SHOES
-									</ProductName>
-									<ProductId>
-										<b>ID:</b> 93813718293
-									</ProductId>
-									<ProductColor color="black" />
-									<ProductSize>
-										<b>Size:</b> 37.5
-									</ProductSize>
-								</Details>
-							</ProductDetail>
-							<PriceDetail>
-								<ProductAmountContainer>
-									<Add />
-									<ProductAmount>2</ProductAmount>
-									<Remove />
-								</ProductAmountContainer>
-								<ProductPrice>$ 30</ProductPrice>
-							</PriceDetail>
-						</Product>
-						<Hr />
-						<Product>
-							<ProductDetail>
-								<Image src="https://i.pinimg.com/originals/2d/af/f8/2daff8e0823e51dd752704a47d5b795c.png" />
-								<Details>
-									<ProductName>
-										<b>Product:</b> HAKURA T-SHIRT
-									</ProductName>
-									<ProductId>
-										<b>ID:</b> 93813718293
-									</ProductId>
-									<ProductColor color="gray" />
-									<ProductSize>
-										<b>Size:</b> M
-									</ProductSize>
-								</Details>
-							</ProductDetail>
-							<PriceDetail>
-								<ProductAmountContainer>
-									<Add />
-									<ProductAmount>1</ProductAmount>
-									<Remove />
-								</ProductAmountContainer>
-								<ProductPrice>$ 20</ProductPrice>
-							</PriceDetail>
-						</Product>
-					</Info>
-					<Summary>
-						<SummaryTitle>ORDER SUMMARY</SummaryTitle>
-						<SummaryItem>
-							<SummaryItemText>Subtotal</SummaryItemText>
-							<SummaryItemPrice>$ 80</SummaryItemPrice>
-						</SummaryItem>
-						<SummaryItem>
-							<SummaryItemText>Estimated Shipping</SummaryItemText>
-							<SummaryItemPrice>$ 5.90</SummaryItemPrice>
-						</SummaryItem>
-						<SummaryItem>
-							<SummaryItemText>Shipping Discount</SummaryItemText>
-							<SummaryItemPrice>$ -5.90</SummaryItemPrice>
-						</SummaryItem>
-						<SummaryItem type="total">
-							<SummaryItemText>Total</SummaryItemText>
-							<SummaryItemPrice>$ 80</SummaryItemPrice>
-						</SummaryItem>
-						<Button>CHECKOUT NOW</Button>
-					</Summary>
-				</Bottom>
-			</Wrapper>
+				</Top> */}
+					<Bottom>
+						<>
+							{cartlist.products?.map((p) => {
+								return (
+									<Info>
+										<Product>
+											<ProductDetail>
+												<Image src={base_URL + p?.productId?.image} />
+												<Details>
+													<ProductName>
+														<b>Product:</b>
+														{p.productId?.title}
+													</ProductName>
+													<ProductId>
+														<b>ID:</b> {p._id}
+														<br />
+														<b>Price:</b> ${p.productId?.price}
+													</ProductId>
+													<ProductAmountContainer>
+														<Add
+															onClick={() =>
+																addToCart(p.productId?._id, token, "add")
+															}
+														/>
+														<ProductAmount>{p.quantity}</ProductAmount>
+														<Remove
+															onClick={() =>
+																addToCart(p.productId?._id, token, "remove")
+															}
+														/>
+													</ProductAmountContainer>
+												</Details>
+											</ProductDetail>
+										</Product>
+									</Info>
+								);
+							})}
+						</>
+						<Summary>
+							<SummaryTitle>ORDER SUMMARY</SummaryTitle>
+							<SummaryItem>
+								<SummaryItemText>Subtotal</SummaryItemText>
+								<SummaryItemPrice>${totalPrice()}</SummaryItemPrice>
+							</SummaryItem>
+							{/* <SummaryItem>
+								<SummaryItemText>Estimated Shipping</SummaryItemText>
+								<SummaryItemPrice>$ 5.90</SummaryItemPrice>
+							</SummaryItem> */}
+							<SummaryItem>
+								<SummaryItemText>Shipping Discount</SummaryItemText>
+								<SummaryItemPrice>$ -0.0</SummaryItemPrice>
+							</SummaryItem>
+							<SummaryItem type="total">
+								<SummaryItemText>Total</SummaryItemText>
+								<SummaryItemPrice>${totalPrice()}</SummaryItemPrice>
+							</SummaryItem>
+							<Button>CHECKOUT NOW</Button>
+						</Summary>
+					</Bottom>
+				</Wrapper>
+			)}
 		</Container>
 	);
 };
+// 	return (
+// 		<div>
+// 			{cartlist.products?.map((p) => {
+// 				return (
+// 					<div>
+// 						<img
+// 							src={base_URL + p.productId.image}
+// 							style={{ width: "100px" }}></img>
+// 						<p>{p.productId.title}</p>
+// 						{/* <button onClick={() => getDetials(p._id)}>See Details</button> */}
+// 					</div>
+// 				);
+// 			})}
+// 		</div>
+// 	);
+// };
 
 export default Cart;

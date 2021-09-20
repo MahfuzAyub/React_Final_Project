@@ -6,7 +6,6 @@ import {
 	requestProductEdit,
 } from "../store/action/prodDetailAction";
 import { useDispatch, useSelector } from "react-redux";
-import ImageUploads from "../components/imageUpload";
 import { imageToBase64 } from "../utils/imageToBase64";
 
 const EditProduct = () => {
@@ -43,30 +42,50 @@ const EditProduct = () => {
 
 	return (
 		<>
-			<div>
+			<div class="container">
 				<p>Name</p>
-				<input value={product?.title} onChange={(e) => editProd(e, "title")} />
+				<input
+					class="Input"
+					value={product?.title}
+					onChange={(e) => editProd(e, "title")}
+				/>
 				<p>Description</p>
 				<input
+					class="Input"
+					class="Input"
 					value={product?.description}
 					onChange={(e) => editProd(e, "description")}
 				/>
 				<p>Price</p>
-				<input value={product?.price} onChange={(e) => editProd(e, "price")} />
-				<p>Category</p>
 				<input
+					class="Input"
+					value={product?.price}
+					onChange={(e) => editProd(e, "price")}
+				/>
+				{/* <p>Category</p>
+				<input
+					class="Input"
 					value={product?.category.name}
 					onChange={(e) => editProd(e, "category")}
-				/>
+				/> */}
 				<p>Stock</p>
-				<input value={product?.stock} onChange={(e) => editProd(e, "stock")} />
+				<input
+					class="Input"
+					value={product?.stock}
+					onChange={(e) => editProd(e, "stock")}
+				/>
 				<p>Image</p>
 				<div>
-					<input type="file" name="file_upload" onChange={onFileChange} />
+					<input
+						class="Input"
+						type="file"
+						name="file_upload"
+						onChange={onFileChange}
+					/>
 				</div>
 
 				<div>
-					<button onClick={() => callUpdateApi(id)}>Update</button>
+					<button class="Button" onClick={() => callUpdateApi(id)}>Update</button>
 				</div>
 			</div>
 		</>

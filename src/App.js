@@ -10,6 +10,7 @@ import AddProduct from './pages/AddProduct';
 import EditProduct from './pages/EditProduct';
 import DeleteProduct from './pages/DeleteProduct';
 import Signin from './pages/signin';
+import SignOut from './pages/signOut';
 import Navbar from './components/Navbar';
 import Announcement from './components/Announcement';
 import Products from './components/Products';
@@ -40,7 +41,9 @@ const App = () => {
         <Route exact path='/AddProduct' render={() => <AddProduct />}></Route>
         <Route path='/Edit/:id' render={() => <EditProduct />}></Route>
         <Route path='/delete/:id' render={() => <DeleteProduct />}></Route>
+        {/* <Route exact path='/signin' render={() => <Signin />}></Route> */}
         <Route exact path='/signin' render={() => <Signin />}></Route>
+        <Route exact path='/signout' render={() => <SignOut />}></Route>
 
         <Route exact path='*'>
           <p>404......Nothing found !!!</p>

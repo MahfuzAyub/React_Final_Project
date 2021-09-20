@@ -6,5 +6,5 @@ export const actionType = {
 
     getCatList: "getCatList",
 
-    addtoCart: 'addtoCart'
+    getCart: 'getCart'
 }

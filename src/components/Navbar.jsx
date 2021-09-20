@@ -10,6 +10,9 @@ import {
 } from "react-router-dom";
 import styled from "styled-components";
 import { mobile } from "../responsive";
+import { Redirect, useHistory, useLocation } from "react-router";
+import { requestSigninAPI, setLogOut_Action } from "../store/action/authAction";
+import { useDispatch, useSelector } from "react-redux";
 
 const Container = styled.div`
 	height: 60px;
@@ -74,11 +77,25 @@ const MenuItem = styled.div`
 `;
 
 const Navbar = () => {
+	const history = useHistory();
+	const token = useSelector((store) => store.authStore.token);
+	const dispatch = useDispatch();
+
+	const gotoCart = () => {
+		history.push("/cart");
+	};
+	const SignOut = () => {
+		dispatch(setLogOut_Action());
+		//setIsLoaded(true);
+	};
+
 	return (
 		<Container>
 			<Wrapper>
 				<Left>
-					<Language>EN</Language>
+					<MenuItem>
+						<Link to="/">Products</Link>
+					</MenuItem>
 					<SearchContainer>
 						<Input placeholder="Search" />
 						<Search style={{ color: "gray", fontSize: 16 }} />
@@ -88,19 +105,31 @@ const Navbar = () => {
 					<Logo>E-Shop..</Logo>
 				</Center>
 				<Right>
+					<MenuItem>
+						{token?.role == "user" && (
+							<Badge color="primary" onClick={() => gotoCart()}>
+								<ShoppingCartOutlined />
+							</Badge>
+						)}
+					</MenuItem>
 					<MenuItem>REGISTER</MenuItem>
 					<MenuItem>
-						<Link to="/signin">Log In</Link>
+						{!token?.token && <Link to="/signin">Log In</Link>}
+						{token?.token && (
+							<Link to="/" onClick={() => SignOut()}>
+								{token?.user}
+								<span width="15px"></span>
+								<span> (Log Out) </span>
+							</Link>
+						)}
 					</MenuItem>
-					<MenuItem>
-						<Link to="/">Product List</Link>
-						<Link to="/AddProduct">Add Product</Link>
-						<Link to="/cart">Cart</Link>
 
-						<Badge badgeContent={10} color="primary">
-							<ShoppingCartOutlined />
-						</Badge>
+					<MenuItem>
+						{token?.role == "admin" && (
+							<Link to="/AddProduct">Add Product</Link>
+						)}
 					</MenuItem>
+					{/* <Link to="/cart">Cart</Link> */}
 				</Right>
 			</Wrapper>
 		</Container>

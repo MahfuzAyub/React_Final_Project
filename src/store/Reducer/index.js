@@ -11,12 +11,17 @@ const persistConfig = {
     key: 'root',
     storage: storage,
 }
+const persistConfigCart = {
+    key: 'cart',
+    storage: storage,
+}
 const persistedStore = persistReducer(persistConfig, authReducer);
+const persistedCart = persistReducer(persistConfigCart, cartReducer);
 
 export const mainReducer = combineReducers({
     listStore: prodListReducer,
     detailStore: prodDetailReducer,
     authStore: persistedStore,
     categoryStore: categoryReducer,
-    cartStore: cartReducer
+    cartStore: persistedCart
 })

@@ -34,21 +34,19 @@ const Form = styled.form`
 	flex-direction: column;
 `;
 
-export const Input = styled.input`
-	flex: 1;
+const Input = styled.input`
 	min-width: 40%;
 	margin: 10px 0;
 	padding: 10px;
 `;
 
 const Button = styled.button`
-	width: 40%;
+	width: 120%;
+	height: 100%;
 	border: none;
-	padding: 15px 20px;
 	background-color: teal;
 	color: white;
 	cursor: pointer;
-	margin-bottom: 10px;
 `;
 
 const Link = styled.a`
@@ -59,13 +57,24 @@ const Link = styled.a`
 `;
 
 const Login = () => {
+	const [user, setuser] = useState({
+		enail: "",
+		password: "",
+	});
+	const [isLoaded, setIsLoaded] = useState(false);
+	const dispatch = useDispatch();
+	const history = useHistory();
+	const setSigninData = (e, key) => {
+		setuser({ ...user, [key]: e.target.value });
+		console.log(e.target.value);
+	};
 	const Signin = () => {
-		//dispatch(requestSigninAPI(user));
-		//	setIsLoaded(true);
+		dispatch(requestSigninAPI(user));
+		setIsLoaded(true);
 	};
 	const SignOut = () => {
-		//	dispatch(setLogOut_Action());
-		//	setIsLoaded(true);
+		dispatch(setLogOut_Action());
+		setIsLoaded(true);
 	};
 
 	return (
@@ -73,11 +82,17 @@ const Login = () => {
 			<Wrapper>
 				<Title>SIGN IN</Title>
 				<Form>
-					<Input placeholder="username" />
-					<Input placeholder="password" />
+					<Input
+						placeholder="username"
+						onChange={(e) => setSigninData(e, "enail")}
+					/>
+					<Input
+						placeholder="password"
+						onChange={(e) => setSigninData(e, "password")}
+					/>
 					<Button onClick={Signin}>LOGIN</Button>
-					<Link>FORGOT PASSWORD?</Link>
-					<Link>CREATE A NEW ACCOUNT</Link>
+					{/* <Link>FORGOT PASSWORD?</Link>
+					<Link>CREATE A NEW ACCOUNT</Link> */}
 				</Form>
 			</Wrapper>
 		</Container>
