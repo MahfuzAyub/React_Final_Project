@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import index from "../image/index.gif";
-
+import { Container } from "../components/Product";
 const Loader = () => {
 	return (
 		<>
 			{
-				<div>
+				<Container>
 					<p>.... loading.....</p>
 					<div
 						style={{
@@ -17,9 +17,9 @@ const Loader = () => {
 							zIndex: "9999",
 							background: { index },
 						}}>
-						<img src={index} alt="logo" />
+						<img style={{ justifyContent:"center"}} src={index} alt="logo" />
 					</div>
-				</div>
+				</Container>
 			}
 		</>
 	);

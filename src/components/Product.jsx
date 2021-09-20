@@ -79,7 +79,7 @@ const Details = styled.div`
 	justify-content: center;
 	text-align: center;
 `;
-const Container = styled.div`
+export const Container = styled.div`
 	margin: 5px;
 	justify-content: center;
 	cursor: pointer;

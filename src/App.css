@@ -31,7 +31,7 @@
 .container {
 	width: 5%;
 	height: 100%;
-	margin-top: 200px;
+	margin-top: 20px;
 	align-items: center;
 	justify-content: center;
 
@@ -40,14 +40,22 @@
 }
 .Button {
 	margin-top: 10px;
-	width: 180%;
+	width: 150%;
 	height: 50px;
 	background-color: rgb(55, 0, 255);
 	color: white;
 	cursor: pointer;
 }
 .Input {
-	width: 500px;
+	width: 400px;
 	margin: 5px;
 	padding: 10px;
+}
+.PTAG {
+	width: 400PX;
+	margin: 5px;
+  justify-content: center;
+  color: teal;
+  text-align: center;
+  font-size: small;
 }

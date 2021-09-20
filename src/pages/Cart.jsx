@@ -8,6 +8,8 @@ import { mobile } from "../responsive";
 import { RequestCartList } from "../store/action/cartAction";
 import { useDispatch, useSelector } from "react-redux";
 import { requestAddCartAPI } from "../store/action/cartAction";
+import { RequestCheckoutApi } from "../store/action/cartAction";
+import { useHistory } from "react-router-dom";
 
 const Container = styled.div`
 	align-items: center;
@@ -175,11 +177,14 @@ const Cart = () => {
 	const cartlist = useSelector((store) => store.cartStore.cart);
 	const dispatch = useDispatch();
 	const base_URL = "http://192.168.57.19:8080/products";
-
+  const hisory = useHistory();
 	const token = useSelector((store) => store.authStore.token?.token);
 	const carts = useSelector((store) => store.cartStore.cart?.products);
 
-	useEffect(() => {
+  useEffect(() => {
+    if (cartlist == []) {
+      alert("Your cart is Empty!!!")
+    }
 		dispatch(RequestCartList(tokens));
 		console.log(tokens, "ererer");
 	}, [dispatch]);
@@ -205,8 +210,13 @@ const Cart = () => {
 
 			return sum.toFixed(2);
 		} else return 0;
+  };
+  const Checkout = () => {
+		//RequestCheckoutApi
+		dispatch(RequestCheckoutApi( token));
 	};
-	return (
+  return (
+    
 		<Container>
 			{/* <Navbar />
 	    <Announcement /> */}
@@ -238,15 +248,15 @@ const Cart = () => {
 														<b>Price:</b> ${p.productId?.price}
 													</ProductId>
 													<ProductAmountContainer>
-														<Add
-															onClick={() =>
-																addToCart(p.productId?._id, token, "add")
-															}
-														/>
-														<ProductAmount>{p.quantity}</ProductAmount>
 														<Remove
 															onClick={() =>
 																addToCart(p.productId?._id, token, "remove")
+															}
+														/>
+														<ProductAmount>{p.quantity}</ProductAmount>
+														<Add
+															onClick={() =>
+																addToCart(p.productId?._id, token, "add")
 															}
 														/>
 													</ProductAmountContainer>
@@ -275,7 +285,7 @@ const Cart = () => {
 								<SummaryItemText>Total</SummaryItemText>
 								<SummaryItemPrice>${totalPrice()}</SummaryItemPrice>
 							</SummaryItem>
-							<Button>CHECKOUT NOW</Button>
+							<Button onClick={() => Checkout(token)}>CHECKOUT NOW</Button>
 						</Summary>
 					</Bottom>
 				</Wrapper>

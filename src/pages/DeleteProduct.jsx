@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory, useLocation, useParams } from "react-router";
 import { requestProductDelete } from "../store/action/prodDetailAction";
 import { useDispatch, useSelector } from "react-redux";
-
+import { Container } from "../components/Product";
 
 const DeleteProduct = () => {
 	const [product, setProudct] = useState();
@@ -26,15 +26,15 @@ const DeleteProduct = () => {
 	}, []);
 
 	return (
-		<>
-			<div>
+		<Container>
+			
 				<h1>Sure to Delete The Product ??</h1>
 
 				<div>
-					<button onClick={()=>callDeleteApi(id,token)}>Delete</button>
+					<button onClick={() => callDeleteApi(id, token)}>Delete</button>
 				</div>
-			</div>
-		</>
+			
+		</Container>
 	);
 };
 export default DeleteProduct;

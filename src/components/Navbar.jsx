@@ -112,7 +112,7 @@ const Navbar = () => {
 							</Badge>
 						)}
 					</MenuItem>
-					<MenuItem>REGISTER</MenuItem>
+					<MenuItem>{!token && <Link to="/Register">Register</Link>}</MenuItem>
 					<MenuItem>
 						{!token?.token && <Link to="/signin">Log In</Link>}
 						{token?.token && (

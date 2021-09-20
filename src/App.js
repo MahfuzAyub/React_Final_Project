@@ -11,6 +11,7 @@ import EditProduct from './pages/EditProduct';
 import DeleteProduct from './pages/DeleteProduct';
 import Signin from './pages/signin';
 import SignOut from './pages/signOut';
+import Register from './pages/Register';
 import Navbar from './components/Navbar';
 import Announcement from './components/Announcement';
 import Products from './components/Products';
@@ -42,6 +43,7 @@ const App = () => {
         <Route path='/Edit/:id' render={() => <EditProduct />}></Route>
         <Route path='/delete/:id' render={() => <DeleteProduct />}></Route>
         {/* <Route exact path='/signin' render={() => <Signin />}></Route> */}
+        <Route exact path='/Register' render={() => <Register />}></Route>
         <Route exact path='/signin' render={() => <Signin />}></Route>
         <Route exact path='/signout' render={() => <SignOut />}></Route>
 

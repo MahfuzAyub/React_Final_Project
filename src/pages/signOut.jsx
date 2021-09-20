@@ -12,19 +12,16 @@ const SignOut = () => {
 	const dispatch = useDispatch();
 
 	const token = useSelector((store) => store.authStore.token?.token);
-	const callDeleteApi = (id, t) => {
-		console.log("called");
-		dispatch(requestProductDelete(id, t));
-		history.push("/");
-	};
+
 	useEffect(() => {}, []);
+
 	const SignOut = () => {
 		dispatch(setLogOut_Action());
 		//setIsLoaded(true);
 	};
 	return (
 		<>
-			<div >
+			<div>
 				<h1>Sure to Log Out ??</h1>
 
 				<div>

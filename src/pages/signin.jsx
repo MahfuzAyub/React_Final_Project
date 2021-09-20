@@ -25,7 +25,6 @@ const Signinn = () => {
 	const Title = styled.h6`
 		font-size: 10px;
 		font-weight: 800;
-		width:55%
 	`;
 
 	const Form = styled.form`
