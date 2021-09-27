@@ -31,6 +31,9 @@ const Left = styled.div`
 	width: 250px;
 `;
 const Products = () => {
+	const [allData, setAllData] = useState([]);
+	const [filteredData, setFilteredData] = useState(allData);
+
 	const listStore = useSelector((store) => store.listStore);
 	const [searchTerm, setSearchTerm] = React.useState("");
 
@@ -45,10 +48,13 @@ const Products = () => {
 		dispatch(requestProductList());
 		dispatch(requestCategorytList());
 		setIsLoaded(true);
-	const results = listStore.productList.filter((item) => {
-		item.title.toLowerCase().includes(searchTerm);
-	});
-	setSearchResults(results);
+	// const results = listStore.productList.filter((item) => {
+	//	item.title.toLowerCase().includes(searchTerm);
+		
+		//setAllData(listStore.productList);
+		setFilteredData(listStore.productList);
+	
+	//setSearchResults(results);
 		
 	}, [dispatch]);
 
@@ -60,17 +66,29 @@ const Products = () => {
 		setSearchTerm(event.target.value);
 	
 	};
+	const handleSearch = (event) => {
+		let value = event.target.value.toLowerCase();
+		let result = [];
+		console.log(value);
+		result = allData.filter((data) => {
+			return data.title.toLowerCase().search(value) != -1;
+		});
+		setFilteredData(result);
+	};
 	return (
 		<>
 			<Left>
 				<SearchContainer>
-					<Input placeholder="Search" onChange={handleChange} />
+					<Input
+						placeholder="Search"
+						onChange={(event) => handleSearch(event)}
+					/>
 					<Search style={{ color: "gray", fontSize: 16 }} />
 				</SearchContainer>
 			</Left>
 			<Container>
 				<div>{!isLoaded && <Loader />}</div>
-				{listStore.productList.map((item) => {
+				{filteredData.map((item) => {
 					return <Product item={item} key={item.id} />;
 				})}
 			</Container>
