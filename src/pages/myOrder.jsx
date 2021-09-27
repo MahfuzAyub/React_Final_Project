@@ -121,17 +121,14 @@ const MyOrders = ({ item }) => {
 				columns={[
 					//{ title: "Name", field: "title" },
 					{ title: "Date", field: "date" },
-					{ title: "Order", field: "_id" },
+					{ title: "Order ID", field: "_id" },
 					{
 						title: "STATUS",
 						field: "status",
 						lookup: { 0: "Pending", 1: "Completed", 2: "Rejected" },
 					},
 				]}
-				//	data={listStore.productList}
-				//	data={orderStore.orderList}
 				data={orderStore.orderList}
-				//data={orderStore.orderList?.products?.productId}
 			/>
 		</Container>
 	);
