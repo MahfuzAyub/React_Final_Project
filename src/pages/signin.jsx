@@ -1,11 +1,13 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory, useLocation, useParams } from "react-router";
 import Loader from "./Loader";
-import { requestSigninAPI, setLogOut_Action } from "../store/action/authAction";
+import { RequestSigninAPI, setLogOut_Action } from "../store/action/authAction";
+import { requestAddCartAPI } from "../store/action/cartAction";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "./Login.jsx";
 import styled from "styled-components";
+import { setCartBfLogin_action } from "../store/action/cartAction";
 
 const Signinn = () => {
 	const Container = styled.div`
@@ -52,22 +54,34 @@ const Signinn = () => {
 		text-decoration: underline;
 		cursor: pointer;
 	`;
+
 	const [user, setuser] = useState({
 		enail: "",
 		password: "",
 	});
+	const { id } = useParams();
 	const [isLoaded, setIsLoaded] = useState(false);
 	const dispatch = useDispatch();
 	const history = useHistory();
+	const token = useSelector((store) => store.authStore.token?.token);
+	const authStore = useSelector((store) => store.authStore.token);
+	useEffect(() => {
+
+		dispatch(requestAddCartAPI( id , token, 1));
+		console.log(id, "param requestAddCartAPI");
+		if (token) {
+			history.push("/");
+		}
+	}, [authStore]);
 	const setSigninData = (e, key) => {
 		setuser({ ...user, [key]: e.target.value });
 		console.log(e.target.value);
 	};
 
 	const Signin = () => {
-		dispatch(requestSigninAPI(user));
+		dispatch(RequestSigninAPI(user))
 		setIsLoaded(true);
-		history.push("/");
+		if (token) { history.push("/"); }
 	};
 	const SignOut = () => {
 		dispatch(setLogOut_Action());
@@ -85,6 +99,7 @@ const Signinn = () => {
 					onChange={(e) => setSigninData(e, "enail")}
 				/>
 				<input
+					type="password"
 					class="Input"
 					placeholder="password"
 					onChange={(e) => setSigninData(e, "password")}

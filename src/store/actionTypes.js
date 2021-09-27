@@ -3,9 +3,11 @@ export const actionType = {
     update_product_list: 'update_product_list',
     RegisterData: 'setRegisterData',
     setLogin: 'setLogin',
+    setCartBfLogin:"setCartBfLogin",
     setLogOut: "setLogOut",
 
     getCatList: "getCatList",
 
-    getCart: 'getCart'
+    getCart: 'getCart',
+    getMyOrder:'getMyOrder'
 }

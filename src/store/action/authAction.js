@@ -1,12 +1,18 @@
 import { actionType } from "../actionTypes";
 import axios from "axios";
+import { requestAddCartAPI } from "./cartAction";
+import { useDispatch, useSelector } from "react-redux";
+
+
 
 export const setLogin_Action = (token) => ({
     type: actionType.setLogin,
     payload: token
 });
 
-export const requestSigninAPI = (user) => {
+export const RequestSigninAPI = (user,param) => {
+  
+
     return (dispatch) => {
         const response =
             axios
@@ -16,8 +22,10 @@ export const requestSigninAPI = (user) => {
                 })
                 .then((response) => {
                     dispatch(setLogin_Action(response.data?.userInfo));
+                    
                     console.log(response.data, "res");
                 })
+               
                 .catch((error) => {
                     console.log(error, "err");
                 });

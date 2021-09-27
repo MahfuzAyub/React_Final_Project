@@ -1,5 +1,5 @@
 import {
-	Search,
+	FavoriteBorderOutlined,
 	SearchOutlined,
 	ShoppingCartOutlined,
 } from "@material-ui/icons";
@@ -11,9 +11,11 @@ import {
 	requestAddCartAPI,
 	setCartBfLogin_action,
 } from "../store/action/cartAction";
+import { requestProductList } from "../store/action/productListAction";
 import { requestCategorytList } from "../store/action/category/catListAction";
 import { useDispatch, useSelector } from "react-redux";
 import { RequestCartList } from "../store/action/cartAction";
+import { RequestMyOrderList } from "../store/action/orderAction";
 import ReactDOM from "react-dom";
 import MaterialTable from "material-table";
 
@@ -90,64 +92,48 @@ export const Container = styled.div`
 	cursor: pointer;
 `;
 
-const Product = ({ item }) => {
+const MyOrders = ({ item }) => {
 	const listStore = useSelector((store) => store.listStore);
+	const orderStore = useSelector((store) => store.orderStore);
 	const dispatch = useDispatch();
 	const [isLoaded, setIsLoaded] = useState(false);
 	const params = useParams();
 	const history = useHistory();
-	const token = useSelector((store) => store.authStore.token);
+	const token = useSelector((store) => store.authStore.token?.token);
 	const cart = useSelector((store) => store.cartStore.cart?.products);
+
+	useEffect(() => {
+		//dispatch(requestProductList());
+		dispatch(RequestMyOrderList(token));
+
+		//	dispatch(RequestCartList(token));
+		setIsLoaded(true);
+		console.log(orderStore.orderList, "order list");
+	}, [dispatch]);
 
 	const getDetials = (id) => {
 		history.push(`/Details/${id}`);
 	};
-	useEffect(() => {
-		dispatch(RequestCartList(token));
-	}, [dispatch, token]);
-	const addToCart = (id, token, action) => {
-		if (token == null) {
-			history.push(`/signin/${id}`);
-			dispatch(setCartBfLogin_action(id));
-		}
 
-		const item = cart?.find((item) => item.productId._id === id);
-		// calc quantity
-		let quantity = null;
-		if (action == "add") {
-			quantity = !item ? 1 : item.quantity + 1;
-		}
-		if (action == "remove") {
-			if (item.quantity <= 1) quantity = 0;
-			else quantity = item.quantity - 1;
-		}
-		dispatch(requestAddCartAPI(id, token, quantity));
-	};
-
-	const role = token?.role;
-	console.log(role, "token?.role");
 	return (
 		<Container>
-			
-			<Wrapper>
-				<Circle />
-				<Image src={"http://localhost:8080/products" + item.image} />
-				<Info>
-					{token?.role != "admin" && (
-						<Icon>
-							<ShoppingCartOutlined
-								onClick={() => addToCart(item._id, token?.token, "add")}
-							/>
-						</Icon>
-					)}
-
-					<Icon>
-						<SearchOutlined onClick={() => getDetials(item._id)} />
-					</Icon>
-				</Info>
-			</Wrapper>
-			<Details onClick={() => getDetials(item._id)}>{item.title}</Details>
+			<MaterialTable
+				columns={[
+					//{ title: "Name", field: "title" },
+					{ title: "Date", field: "date" },
+					{ title: "Order", field: "_id" },
+					{
+						title: "STATUS",
+						field: "status",
+						lookup: { 0: "Pending", 1: "Completed", 2: "Rejected" },
+					},
+				]}
+				//	data={listStore.productList}
+				//	data={orderStore.orderList}
+				data={orderStore.orderList}
+				//data={orderStore.orderList?.products?.productId}
+			/>
 		</Container>
 	);
 };
-export default Product;
+export default MyOrders;

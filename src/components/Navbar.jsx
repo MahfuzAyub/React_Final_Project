@@ -96,10 +96,10 @@ const Navbar = () => {
 					<MenuItem>
 						<Link to="/">Products</Link>
 					</MenuItem>
-					<SearchContainer>
+					{/* <SearchContainer>
 						<Input placeholder="Search" />
 						<Search style={{ color: "gray", fontSize: 16 }} />
-					</SearchContainer>
+					</SearchContainer> */}
 				</Left>
 				<Center>
 					<Logo>E-Shop..</Logo>
@@ -113,6 +113,7 @@ const Navbar = () => {
 						)}
 					</MenuItem>
 					<MenuItem>{!token && <Link to="/Register">Register</Link>}</MenuItem>
+					<MenuItem>{token && <Link to="/myOrder">My Orders</Link>}</MenuItem>
 					<MenuItem>
 						{!token?.token && <Link to="/signin">Log In</Link>}
 						{token?.token && (

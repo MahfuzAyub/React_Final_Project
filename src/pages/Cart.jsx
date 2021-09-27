@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Add, Remove } from "@material-ui/icons";
+import { Add, Remove,Delete } from "@material-ui/icons";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
@@ -199,6 +199,10 @@ const Cart = () => {
 		if (action == "remove") {
 			if (item?.quantity > 0) quantity = item?.quantity - 1;
 		}
+		if (action == "delete") {
+			quantity =0;
+		}
+
 		dispatch(requestAddCartAPI(id, token, quantity));
 	};
 
@@ -216,11 +220,10 @@ const Cart = () => {
 		dispatch(RequestCheckoutApi( token));
 	};
   return (
-    
 		<Container>
 			{/* <Navbar />
 	    <Announcement /> */}
-			{!cartlist == [] && (
+			{cartlist?.status != "error" ? (
 				<Wrapper>
 					<Title>YOUR BAG</Title>
 					{/* <Top>
@@ -259,6 +262,11 @@ const Cart = () => {
 																addToCart(p.productId?._id, token, "add")
 															}
 														/>
+														<Delete
+															onClick={() =>
+																addToCart(p.productId?._id, token, "delete")
+															}
+														/>
 													</ProductAmountContainer>
 												</Details>
 											</ProductDetail>
@@ -288,6 +296,10 @@ const Cart = () => {
 							<Button onClick={() => Checkout(token)}>CHECKOUT NOW</Button>
 						</Summary>
 					</Bottom>
+				</Wrapper>
+			) : (
+				<Wrapper>
+					  <h1 style={{ color: 'red'}}>Your Cart is empty! Please Add some Items !!!</h1>
 				</Wrapper>
 			)}
 		</Container>

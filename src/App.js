@@ -15,6 +15,7 @@ import Register from './pages/Register';
 import Navbar from './components/Navbar';
 import Announcement from './components/Announcement';
 import Products from './components/Products';
+import MyOrders from './pages/myOrder';
 import Footer from './components/Footer';
 import Login from './pages/Login';
 import Cart from './pages/Cart';
@@ -45,7 +46,10 @@ const App = () => {
         {/* <Route exact path='/signin' render={() => <Signin />}></Route> */}
         <Route exact path='/Register' render={() => <Register />}></Route>
         <Route exact path='/signin' render={() => <Signin />}></Route>
+        <Route path='/signin/:id' render={() => <Signin />}></Route>
         <Route exact path='/signout' render={() => <SignOut />}></Route>
+        <Route exact path='/myOrder' render={() => <MyOrders />}></Route>
+        {/* <Route exact path='/myOrder' render={() => <CustomerList />}></Route> */}
 
         <Route exact path='*'>
           <p>404......Nothing found !!!</p>

@@ -2,18 +2,13 @@ import { actionType } from "../actionTypes";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-
-export const getCart_Action_store = (product) => ({
-    type: actionType.getCart,
+import { RequestCartList } from "./cartAction";
+export const getMyOrder_Action = (product) => ({
+    type: actionType.getMyOrder,
     payload: product
 });
-export const setCartBfLogin_action = (pid) => ({
-    type: actionType.setCartBfLogin,
-    payload: pid
-});
-// const setCartBfLogin = () => {
-//     dispatch(setCartBfLogin_action(token));
-// }
+
+// also used for remove product from cart q=0
 export const requestAddCartAPI = (id, token,q) => {
     return async (dispatch) => {
 
@@ -35,32 +30,17 @@ export const requestAddCartAPI = (id, token,q) => {
         dispatch(RequestCartList(token));
     }
 }
-export const RequestCartList = (token) => {
+export const RequestMyOrderList = (token) => {
     // const tokens = useSelector((store) => store.authStore.token.token);
     
     return async (dispatch) => {
-        const response = await axios.get("http://localhost:8080/cart", {
+        const response = await axios.get("http://localhost:8080/order/my-order", {
             headers: {
                 Accept: "application/json",
                 authorization: `bearer ${token}`
             }
         });
-        dispatch(getCart_Action_store(response.data));
-        console.log(response.data, "request cart LIst")
-    };
-};
-export const RequestCheckoutApi = (token) => {
-    return async (dispatch) => {
-        const response = await axios.get("http://localhost:8080/order/checkout", {
-            headers: {
-                Accept: "application/json",
-                authorization: `bearer ${token}`
-            }
-        });
-        console.log(response.data, "RequestCheckoutApi")
-        if (response.data.status == 0) {
-            alert("Checkout successful !!!")
-        }
-        dispatch(RequestCartList(token));
+        dispatch(getMyOrder_Action(response.data));
+        console.log(response.data, "getMyOrder_Action")
     };
 };
