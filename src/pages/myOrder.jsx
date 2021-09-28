@@ -113,7 +113,7 @@ const MyOrders = ({ item }) => {
 
 	const getDetials = (id) => {
 		history.push(`/Details/${id}`);
-	};
+	};;
 
 	return (
 		<Container>

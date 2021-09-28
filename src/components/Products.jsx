@@ -51,7 +51,7 @@ const Products = () => {
 	// const results = listStore.productList.filter((item) => {
 	//	item.title.toLowerCase().includes(searchTerm);
 		
-		//setAllData(listStore.productList);
+		setAllData(listStore.productList);
 		setFilteredData(listStore.productList);
 	
 	//setSearchResults(results);
@@ -88,6 +88,7 @@ const Products = () => {
 			</Left>
 			<Container>
 				<div>{!isLoaded && <Loader />}</div>
+
 				{filteredData.map((item) => {
 					return <Product item={item} key={item.id} />;
 				})}
