@@ -18,15 +18,12 @@ const AddProduct = () => {
 	const history = useHistory();
 	const AddProduct = (e, key) => {
 		setProudcts({ ...product, [key]: e.target.value });
-	//	console.log(product, "product");
 	};
 	const onFileChange = async (e) => {
 		console.log(e.target.files[0]);
 		image64 = await imageToBase64(e.target.files[0]);
 		console.log(image64, "image64");
 		setProudcts(product && { ...product, image: image64 });
-
-		
 	};
 	const callAddProductApi = () => {
 		dispatch(requestProductAdd(product, token));
@@ -38,7 +35,6 @@ const AddProduct = () => {
 		console.log(e.target.value, "val");
 	};
 	const categories = useSelector((store) => store.categoryStore.List);
-
 	return (
 		<>
 			<div>
@@ -49,23 +45,16 @@ const AddProduct = () => {
 				<p>Price</p>
 				<input onChange={(e) => AddProduct(e, "price")} />
 				<p>Category</p>
-				{/* <input onChange={(e) => AddProduKCct(e, "category_id")} /> */}
-
 				<div>
-					<select
-						defaultValue=""
-						// onChange={(e) => AddProduct(e, "category_id")}>
-						onChange={setCatId}>
+					<select defaultValue="" onChange={setCatId}>
 						<option value="">----------Select----------</option>
-
-						{categories.map((cat, index) => (
+						{categories.map((cat,index) => (
 							<option key={index} value={cat._id}>
 								{cat.name}
 							</option>
 						))}
 					</select>
 				</div>
-
 				<p>Stock</p>
 				<input onChange={(e) => AddProduct(e, "stock")} />
 				<p>Image</p>
@@ -80,5 +69,3 @@ const AddProduct = () => {
 	);
 };
 export default AddProduct;
-
-//rafce
