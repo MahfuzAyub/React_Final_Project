@@ -11,8 +11,6 @@ import {
 	requestAddCartAPI,
 	setCartBfLogin_action,
 } from "../store/action/cartAction";
-import { requestProductList } from "../store/action/productListAction";
-import { requestCategorytList } from "../store/action/category/catListAction";
 import { useDispatch, useSelector } from "react-redux";
 import { RequestCartList } from "../store/action/cartAction";
 import { RequestMyOrderList } from "../store/action/orderAction";
