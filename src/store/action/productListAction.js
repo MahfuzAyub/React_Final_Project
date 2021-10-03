@@ -13,5 +13,3 @@ export const requestProductList = () => {
         console.log(response.data, "Product LIst")
     };
 };
-
-//export default requestProductList;

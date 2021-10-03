@@ -125,7 +125,7 @@ const Product = ({ item }) => {
 	};
 
 	const role = token?.role;
-	console.log(role, "token?.role");
+	//console.log(role, "token?.role");
 	return (
 		<Container>
 			

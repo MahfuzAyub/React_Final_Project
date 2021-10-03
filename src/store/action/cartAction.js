@@ -46,7 +46,7 @@ export const RequestCartList = (token) => {
             }
         });
         dispatch(getCart_Action_store(response.data));
-        console.log(response.data, "request cart LIst")
+        //console.log("request cart LIst",response.data)
     };
 };
 export const RequestCheckoutApi = (token) => {

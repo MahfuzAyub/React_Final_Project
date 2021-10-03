@@ -93,33 +93,29 @@ export const Container = styled.div`
 `;
 
 const MyOrders = ({ item }) => {
-	const listStore = useSelector((store) => store.listStore);
-	const orderStore = useSelector((store) => store.orderStore);
+	//const listStore = useSelector((store) => store.listStore);
+	
 	const dispatch = useDispatch();
-	const [isLoaded, setIsLoaded] = useState(false);
-	const params = useParams();
-	const history = useHistory();
+	const orderStore = useSelector((store) => store.orderStore);
+	//const [isLoaded, setIsLoaded] = useState(false);
+	//const params = useParams();
+	//const history = useHistory();
 	const token = useSelector((store) => store.authStore.token?.token);
-	const cart = useSelector((store) => store.cartStore.cart?.products);
+	//const cart = useSelector((store) => store.cartStore.cart?.products);
 
 	useEffect(() => {
 		//dispatch(requestProductList());
 		dispatch(RequestMyOrderList(token));
-
 		//	dispatch(RequestCartList(token));
-		setIsLoaded(true);
+		//setIsLoaded(true);
 		console.log(orderStore.orderList, "order list");
 	}, [dispatch]);
 
-	const getDetials = (id) => {
-		history.push(`/Details/${id}`);
-	};;
-
 	return (
-		<Container>
+		<Container><h1>dfdfdf</h1>
 			<MaterialTable
 				columns={[
-					//{ title: "Name", field: "title" },
+					//{ title: "Name", field: 'orderStore.orderList.products.title' },
 					{ title: "Date", field: "date" },
 					{ title: "Order ID", field: "_id" },
 					{

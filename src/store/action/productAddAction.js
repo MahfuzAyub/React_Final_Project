@@ -29,7 +29,8 @@ export const requestProductAdd = (product, token) => {
                 }
             })
         dispatch(requestProductList());
-        console.log(response, "Post Status!!");
+
+        alert(response.data.status, "Post Status!!")
        // history.push("/");
     };
 }
