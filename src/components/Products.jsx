@@ -36,11 +36,11 @@ const Ctg = styled.div`
 	width: 250px;
 `;
 const Products = () => {
+	const listStore = useSelector((store) => store.listStore);
 	const [allData, setAllData] = useState([]);
 	const [filteredData, setFilteredData] = useState(allData);
 	const [filteredCtgData, setFilteredCtgData] = useState(allData);
 
-	const listStore = useSelector((store) => store.listStore);
 	const [searchTerm, setSearchTerm] = React.useState("");
 
 	const [searchResults, setSearchResults] = React.useState(
@@ -60,45 +60,41 @@ const Products = () => {
 		stock: 0,
 		category_id: "",
 	});
-	const setCatId = (e) => {
-		//	setProudcts(product && { ...product, category_id: e.target.value });
-		//console.log(e.target.value, "val");
-		
-			setSearchTerm(" ");
-			var value = e.target.value;
-		console.log(value, "val");
-		if (value !=0) {
-			let result = [];
-			result = allData.filter((data) => {
-				return data.category._id === value; //!= -1;
-			});
-			setFilteredData(result);
-			console.log(result, "result");
-		}else {
-			let result = [];
-			result = allData;
-			console.log( "777777777777777result");
-			setFilteredData(result);
-		}
-	};
+
 	useEffect(() => {
 		dispatch(requestProductList());
 		dispatch(requestCategorytList());
 		setIsLoaded(true);
-		// const results = listStore.productList.filter((item) => {
-		//	item.title.toLowerCase().includes(searchTerm);
 
 		setAllData(listStore.productList);
 		setFilteredData(listStore.productList);
 
 		//setSearchResults(results);
-	}, [dispatch, filteredCtgData]);
+	}, [dispatch]);
 
 	const getDetials = (id) => {
 		history.push(`/Details/${id}`);
 	};
+	const setCatId = (e) => {
+		setAllData(listStore.productList);
 
+		setSearchTerm(" ");
+		var value = e.target.value;
+		console.log(value, "val");
+		if (value != 0) {
+			let result = [];
+			result = allData.filter((data) => {
+				return data.category._id === value; //!= -1;
+			});
+			setFilteredData(result);
+		} else {
+			let result = [];
+			result = allData;
+			setFilteredData(result);
+		}
+	};
 	const handleSearch = (event) => {
+		setAllData(listStore.productList);
 		setSearchTerm(event.target.value);
 		console.log(searchTerm, "serachterrm");
 

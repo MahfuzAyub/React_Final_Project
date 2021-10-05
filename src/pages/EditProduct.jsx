@@ -77,7 +77,7 @@ const EditProduct = () => {
 				<p>Image</p>
 				<div>
 					<input
-						class="Input"
+						class="file_upload"
 						type="file"
 						name="file_upload"
 						onChange={onFileChange}
@@ -85,7 +85,9 @@ const EditProduct = () => {
 				</div>
 
 				<div>
-					<button class="Button" onClick={() => callUpdateApi(id)}>Update</button>
+					<button class="Button" onClick={() => callUpdateApi(id)}>
+						Update
+					</button>
 				</div>
 			</div>
 		</>

@@ -107,7 +107,7 @@ const MyOrders = ({ item }) => {
 		//	dispatch(RequestCartList(token));
 		//setIsLoaded(true);
 		console.log(orderStore.orderList, "order list");
-	}, [dispatch]);
+	}, [RequestMyOrderList]);
 
 	return (
 		<Container><h1>dfdfdf</h1>
